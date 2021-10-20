@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from "rxjs";
 import {delay, map} from "rxjs/operators";
 import { Todo } from './todo';
+import { HttpClient } from "@angular/common/http"
 
 
 let mockData: Todo[] = [
@@ -12,7 +13,6 @@ let mockData: Todo[] = [
 ];
 
 function removeFromMockData(id: number) {
-  console.log(id)
   mockData = mockData.filter(todo => todo.id !== id);
 }
 
@@ -20,6 +20,14 @@ function removeFromMockData(id: number) {
   providedIn: 'root'
 })
 export class TodoService {
+  //   Url = "http://localhost:8099/api/todos"
+  // constructor(private http:HttpClient){
+
+  // }
+
+  // getAllTodos(){
+  //   return this.http.get<Todo[]>(this.Url)
+  // }
   getAll(): Observable<Todo[]> {
     return of(undefined).pipe(delay(2_000), map(() => mockData));
   }

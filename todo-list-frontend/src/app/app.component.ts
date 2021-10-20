@@ -16,9 +16,9 @@ import { Todo } from './todo';
     <div class="list">
       <label for="search">Search...</label>
       <input id="search" type="text" [formControl]="filter" placeholder="Filter Todo..." >
-      <app-progress-bar *ngIf="isLoading">  
+      <app-progress-bar *ngIf="isLoading">
       </app-progress-bar>
-      <app-todo-item *ngFor="let todo of filteredTodos$  | async" [item]="todo" ></app-todo-item>
+      <app-todo-item *ngFor="let todo of filteredTodos$  | async" [item]="todo"  (click)="removeTodo($event)"  id="{{todo.id}}" ></app-todo-item>
     </div>
   `,
   styleUrls: ['app.component.scss']
@@ -26,24 +26,39 @@ import { Todo } from './todo';
 export class AppComponent {
   isLoading: boolean = true
 
-  readonly todos$: Observable<Todo[]>;
+  todos$: Observable<Todo[]> = new Observable<Todo[]>();
   filter: FormControl;
   filter$: Observable<string>;
-  filteredTodos$: Observable<Todo[]>;
+  filteredTodos$: Observable<Todo[]> = new Observable<Todo[]>();
+  todoService: TodoService;
 
   constructor(todoService: TodoService) {
-    this.todos$ = todoService.getAll()
+    this.todoService = todoService
+    this.filter = new FormControl('')
+    this.filter$ = this.filter.valueChanges.pipe(startWith(''))
+    this.getTodos()
+  }
+
+  getTodos() {
+    this.todos$ = this.todoService.getAll()
     this.todos$.subscribe((data) => {
       if (data.length != 0) {
         this.isLoading = false
       }
     })
-
-    this.filter = new FormControl('');
-    this.filter$ = this.filter.valueChanges.pipe(startWith(''));
     this.filteredTodos$ = combineLatest(this.todos$, this.filter$).pipe(
       map(([todos, filterString]) => todos.filter(todo => todo.task.toLowerCase().indexOf(filterString.toLowerCase()) !== -1))
     );
-
   }
+
+
+  removeTodo(event: any){
+    const todoId = event.currentTarget.attributes.id.value
+    this.isLoading = true
+    this.todoService.remove(parseInt(todoId)).subscribe(
+      res => this.getTodos(),
+      e => {alert(e); this.isLoading = false}
+    )
+  }
+
 }

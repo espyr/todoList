@@ -1,12 +1,11 @@
 import {Component, Input} from '@angular/core';
 import { Todo } from '../todo';
+import { TodoService } from '../todo.service';
 
 @Component({
   selector: 'app-todo-item',
   template: `
-      <div class="task-indicator">
-        {{ item.task }}
-      </div>
+      <div class="task-indicator">{{ item.task }}</div>
       <div class="priority-indicator" [style.background-color]="color">
         {{ item.priority }}
       </div>
@@ -14,6 +13,9 @@ import { Todo } from '../todo';
   styleUrls: ['todo-item.component.scss']
 })
 export class TodoItemComponent {
+  constructor(private todoService: TodoService) {
+
+  }
 
   @Input() item!: Todo;
 
