@@ -15,10 +15,10 @@ import { Todo } from './todo';
     </div>
     <div class="list">
       <label for="search">Search...</label>
-      <input id="search" type="text"  >
+      <input id="search" type="text" [formControl]="filter" placeholder="Filter Todo..." >
       <app-progress-bar *ngIf="isLoading">  
       </app-progress-bar>
-      <app-todo-item *ngFor="let todo of todos$  | async" [item]="todo" ></app-todo-item>
+      <app-todo-item *ngFor="let todo of filteredTodos$  | async" [item]="todo" ></app-todo-item>
     </div>
   `,
   styleUrls: ['app.component.scss']
@@ -27,6 +27,9 @@ export class AppComponent {
   isLoading: boolean = true
 
   readonly todos$: Observable<Todo[]>;
+  filter: FormControl;
+  filter$: Observable<string>;
+  filteredTodos$: Observable<Todo[]>;
 
   constructor(todoService: TodoService) {
     this.todos$ = todoService.getAll()
@@ -36,6 +39,11 @@ export class AppComponent {
       }
     })
 
-  
+    this.filter = new FormControl('');
+    this.filter$ = this.filter.valueChanges.pipe(startWith(''));
+    this.filteredTodos$ = combineLatest(this.todos$, this.filter$).pipe(
+      map(([todos, filterString]) => todos.filter(todo => todo.task.toLowerCase().indexOf(filterString.toLowerCase()) !== -1))
+    );
+
   }
 }
