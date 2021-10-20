@@ -1,12 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from "rxjs";
 import {delay, map} from "rxjs/operators";
+import { Todo } from './todo';
 
-export interface Todo {
-  id: number;
-  task: string;
-  priority: 1 | 2 | 3;
-}
 
 let mockData: Todo[] = [
   { id: 0, task: 'Implement loading - frontend only', priority: 1 },
@@ -16,6 +12,7 @@ let mockData: Todo[] = [
 ];
 
 function removeFromMockData(id: number) {
+  console.log(id)
   mockData = mockData.filter(todo => todo.id !== id);
 }
 
@@ -23,12 +20,11 @@ function removeFromMockData(id: number) {
   providedIn: 'root'
 })
 export class TodoService {
-
   getAll(): Observable<Todo[]> {
     return of(undefined).pipe(delay(2_000), map(() => mockData));
   }
-
   remove(id: number): Observable<void> {
+    console.log(id)
     return new Observable<void>(observer => {
       setTimeout(() => {
         if (Math.random() < .8) {

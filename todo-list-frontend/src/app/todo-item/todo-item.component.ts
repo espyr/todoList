@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Todo} from "../todo.service";
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-item',

@@ -1,6 +1,9 @@
-import {Component} from '@angular/core';
-import {Todo, TodoService} from "./todo.service";
-import {Observable} from "rxjs";
+import { Component } from '@angular/core';
+import { TodoService } from "./todo.service";
+import { Observable, combineLatest } from "rxjs";
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
+import { Todo } from './todo';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +15,27 @@ import {Observable} from "rxjs";
     </div>
     <div class="list">
       <label for="search">Search...</label>
-      <input id="search" type="text">
-      <app-progress-bar></app-progress-bar>
-      <app-todo-item *ngFor="let todo of todos$ | async" [item]="todo"></app-todo-item>
+      <input id="search" type="text"  >
+      <app-progress-bar *ngIf="isLoading">  
+      </app-progress-bar>
+      <app-todo-item *ngFor="let todo of todos$  | async" [item]="todo" ></app-todo-item>
     </div>
   `,
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  isLoading: boolean = true
 
   readonly todos$: Observable<Todo[]>;
 
   constructor(todoService: TodoService) {
-    this.todos$ = todoService.getAll();
+    this.todos$ = todoService.getAll()
+    this.todos$.subscribe((data) => {
+      if (data.length != 0) {
+        this.isLoading = false
+      }
+    })
+
+  
   }
 }
