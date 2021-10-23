@@ -17,11 +17,15 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public Todo listarId(int id) {
-        return null;
+        return repository.findOne(id);
     }
 
     @Override
     public Todo delete(int id) {
-        return null;
+     Todo p = repository.findOne(id);
+     if(p!=null) {
+     repository.delete(p);
+        }
+     return p;
     }
 }

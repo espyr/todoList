@@ -20,14 +20,18 @@ function removeFromMockData(id: number) {
   providedIn: 'root'
 })
 export class TodoService {
-  //   Url = "http://localhost:8099/api/todos"
-  // constructor(private http:HttpClient){
+    Url = "http://localhost:8099/api/todos"
+  constructor(private http:HttpClient){
 
-  // }
+  }
 
-  // getAllTodos(){
-  //   return this.http.get<Todo[]>(this.Url)
-  // }
+  getAllTodos(){
+    return this.http.get<Todo[]>(this.Url)
+  }
+
+  deleteTodo(todo:Todo){
+    return this.http.delete<Todo>(this.Url+"/"+todo.id)
+  }
   getAll(): Observable<Todo[]> {
     return of(undefined).pipe(delay(2_000), map(() => mockData));
   }

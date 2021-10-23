@@ -7,7 +7,7 @@ import { TodoService } from '../todo.service';
   template: `
       <div class="task-indicator">{{ item.task }}</div>
       <div class="priority-indicator" [style.background-color]="color">
-        {{ item.priority }}
+        {{ item.priority }}        
       </div>
   `,
   styleUrls: ['todo-item.component.scss']

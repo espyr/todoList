@@ -6,6 +6,9 @@ import {TodoItemComponent} from './todo-item/todo-item.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ProgressBarComponent} from './progress-bar/progress-bar.component';
 
+import { TodoService } from './todo.service';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.modules';
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,9 +18,11 @@ import {ProgressBarComponent} from './progress-bar/progress-bar.component';
     imports: [
         BrowserModule,
         FormsModule,
-        ReactiveFormsModule        
+        ReactiveFormsModule,
+        HttpClientModule,
+        AppRoutingModule
     ],
-  providers: [],
+  providers: [TodoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
