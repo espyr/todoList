@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(name = "todos")
 public class Todo {
 
-    private int id;
+    private Long id;
     private String task;
     private Enum priority;
 
@@ -20,11 +20,11 @@ public class Todo {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     @Column(name = "task", nullable = false)

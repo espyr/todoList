@@ -23,7 +23,7 @@ import { of } from 'rxjs';
       <app-progress-bar *ngIf="isLoading">
       </app-progress-bar>
       <!-- <app-todo-item *ngFor="let todo of todos  | async" [item]="todo"  (click)="removeTodo($event)"  id="{{todo.id}}" ></app-todo-item> -->
-      <app-todo-item *ngFor="let todo of todos$  | async" [item]="todo"  (click)="DeleteTodo(todo)"  id="{{todo.id}}" ></app-todo-item>
+      <app-todo-item *ngFor="let todo of filteredTodos$  | async" [item]="todo"  (click)="DeleteTodo(todo)"  id="{{todo.id}}" ></app-todo-item>
 
     </div>
   `,
@@ -49,7 +49,7 @@ export class AppComponent {
   ngOnInit() {
     this.todoService.getAllTodos()
       .subscribe(data => {
-        this.todos$ = of(data)
+        this.filteredTodos$ = of(data)
         })
     
   }

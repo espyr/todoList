@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Integer> {
     List<Todo> findAll();
-    Todo findOne(int id);
+    Todo findOne(long id);
     void delete(Todo t);
 }

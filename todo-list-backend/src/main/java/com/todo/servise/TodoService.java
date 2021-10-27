@@ -4,6 +4,6 @@ import com.todo.model.Todo;
 
 public interface TodoService {
     List<Todo> listar();
-    Todo listarId(int id);
-    Todo delete(int id);
+    Todo listarId(long id);
+    Todo delete(long id);
 }

@@ -20,7 +20,7 @@ function removeFromMockData(id: number) {
   providedIn: 'root'
 })
 export class TodoService {
-    Url = "http://localhost:8099/api/todos"
+    Url = "http://localhost:8099/todos"
   constructor(private http:HttpClient){
 
   }
