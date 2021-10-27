@@ -16,7 +16,7 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public Todo listarId(long id) {
+    public Todo findOne(long id) {
         return repository.findOne(id);
     }
 
